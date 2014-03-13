@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo Angular App</title>
+</head>
+<body ng-app>
+	<div ng-controller="HelloCtrl">
+		<h1>Hello, {{name}}</h1>
+		<h1>The sum of 2 + 2 is {{2+2}}</h1>
+		<input type="text" name="name" ng-model="name"></input>
+		<input type="button" value="Test" ng-click="hi()"/>	
+		<h1>{{weather}}</h1>
+		<h2>{{weather.coord.lat}}/ {{weather.coord.lon}}</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>main</th>
+					<th>description</th>
+					<th>icon</th>
+				</tr>
+				<tr ng-repeat="item in weather.weather | orderBy:'main'">
+					<td>{{item.id | currency}}</td>
+					<td>{{item.main}}</td>
+					<td>{{item.description}}</td>
+					<td>{{item.icon}}</td>
+				</tr>
+			</thead>
+		</table>
+	</div>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript">
+	function HelloCtrl($scope, $http) {
+		$scope.name = "World";
+		$scope.hi = function() {
+			alert($scope.name);
+		};
+		var url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk";
+		$http.get(url).then(function(result) {
+			console.log(result);
+			$scope.weather = result.data;
+		})
+
+	}
+</script>
+</body>
+</html>
